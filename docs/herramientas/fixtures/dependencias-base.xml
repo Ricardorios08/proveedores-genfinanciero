@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fixture sintético para dependencias-xpz.py. El código es inventado: solo
+     reproduce la forma de las llamadas que el script tiene que distinguir.
+     En esta versión base los cuatro controles pasan. probar.py genera las
+     variantes que rompen cada control por separado. -->
+<ExportFile>
+  <Objects>
+    <Object name="HPrvIR18" type="c9584656-94b6-4ccd-890f-332d11fc2c25">
+      <Part type="c44bd5ff-f918-415b-98e6-aca44fed84fa">
+        <Source><![CDATA[Event 'Siguiente'
+	TPrvESP.Popup(&Usuario, &Modo)
+	HPrvIR42.Call(&Usuario)
+	Msg('Texto de prueba (sin llamada)')
+	&Texto = StrReplace(&Texto, 'a', 'b')
+	/*
+	RPrvIR63(&Usuario, &Flag)
+	*/
+EndEvent
+]]></Source>
+      </Part>
+    </Object>
+    <Object name="HPrvIR42" type="c9584656-94b6-4ccd-890f-332d11fc2c25" />
+  </Objects>
+  <Attributes>
+    <Attribute name="AtrSintetico" />
+  </Attributes>
+</ExportFile>

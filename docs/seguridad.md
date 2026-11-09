@@ -1,0 +1,34 @@
+# Seguridad
+
+Hallazgos de seguridad que se ven al leer el módulo. Se documentan **como son**. Ninguno de los comportamientos de este archivo es un requisito a replicar en el rediseño: todos son de clase accidente y el responsable decide qué hacer en `decisiones-rediseno.md`. Nunca figura un valor de credencial, de clave de cifrado ni de atributo de sistema; se nombra el objeto y el campo.
+
+Qué sí es del negocio detrás de estos hallazgos (que el proveedor reciba un modo de acceso al terminar el alta y pueda recuperarlo) está en `integraciones.md` (R-501, R-514 y R-508).
+
+## Contraseña inicial del portal
+
+- **R-549** Si el perfil del proveedor se graba con la contraseña del portal (`PRvPPass`) vacía, el sistema genera una contraseña inicial: un número entero pseudoaleatorio de hasta 8 dígitos, calculado con la función `Random()` de GeneXus (no criptográfica) multiplicada por cien millones y recortada a 8 posiciones, y la guarda cifrada con `RGXPEncriptaPrv`. La misma receta se repite al precargar un proveedor que ya existe en GEN. **Se documenta como es y no es un requisito a replicar**: el espacio de búsqueda es de a lo sumo cien millones de valores y el generador no es seguro. [V · capas: código, diseño · ev: tprvinsrp_impl.java onLoadActionsIZ382 y checkExtendedTableIZ382; pprvir09.java privateExecute; XPZ TPrvInsRP Rules · clase: accidente]
+- **R-550** El cifrado de esa contraseña es reversible: `RGXPEncriptaPrv` usa el cifrado simétrico `encrypt64` del entorno con una clave que `RGXPClavePro` devuelve desde un literal escrito en el código fuente, y existe el objeto inverso `RGXPDesencrPrv` que la descifra. No hay resumen (hash) ni sal, y quien lea el repositorio de código tiene la clave. La clave no se transcribe. [V · capas: código · ev: rgxpencriptaprv.java privateExecute; rgxpclavepro.java privateExecute; rgxpdesencrprv.java privateExecute · clase: accidente]
+- **R-551** El proveedor tiene en realidad dos credenciales: la del portal (`PRvPPass`, la de las dos reglas anteriores) y la de Services, que genera Services al crear el usuario (R-501). En los objetos del módulo revisados no se encontró quien envíe la primera al proveedor ni quien la use para autenticar contra Services; sí la leen `pchgpassprov`, `pcadm001`, `apprvp007`, `arprvir14` y `cmautprvpre`, que están fuera de la familia y no se revisaron. Queda como sospecha de resto de una versión anterior. [V · capas: código · ev: tprvinsrp0001.java privateExecute (la clave que se envía es la de NewPassGenerated); tprvinsrp_impl.java checkExtendedTableIZ382; archivos que nombran PRvPPass: pchgpassprov.java, pcadm001.java, apprvp007.java, arprvir14_impl.java, cmautprvpre.java · clase: accidente]
+
+## Envío de claves
+
+- **R-552** La clave inicial de Services viaja en texto claro dentro del cuerpo del correo de bienvenida, junto con el usuario (`tprvinsrp0001`, sobre `pprvir99`). El correo queda además en la cola de correo de Services. Como el tipo de mensaje va vacío, no se lo registra en `PrvMsg`, así que el módulo no guarda copia propia. Lo que puede ser esencial es que el proveedor reciba su acceso; que sea un texto claro por correo no lo es. [V · capas: código · ev: tprvinsrp0001.java privateExecute; pprvir99.java privateExecute · clase: accidente]
+- **R-553** La recuperación de contraseña, que entra por `loginrecuperarpwd` (entrada externa) y no por el módulo, genera una clave nueva de 8 caracteres con `Random()` sobre un alfabeto fijo (`tprvinsrp0002`), la cambia en Services sin pedir la anterior (R-508) y la manda en texto claro por `pprvsendmail`. La identidad se comprueba solo con usuario y correo, y **alcanza con uno de los dos**: cada condición se agrega a la búsqueda solo si el campo viene cargado (`loginrecuperarpwd_impl.java`, armado dinámico del `WHERE` sobre `PrvPerfil`). Con solo el usuario, cualquiera puede hacerle reiniciar la clave a un proveedor; con solo el correo, se reinician todos los perfiles que lo comparten (ver R-720). *(Corregido el 2026-10-23: decía que usuario y correo debían coincidir.)* El mensaje que ve quien lo pide es el mismo exista o no el usuario, salvo cuando Services devuelve un error. [V · capas: código · ev: tprvinsrp0002.java privateExecute; loginrecuperarpwd_impl.java S112 ('RECUPERARPWD'); pprvsendmail.java privateExecute · clase: accidente]
+
+## Cuenta de servicio
+
+- **R-554** La cuenta con la que el portal se autentica en Services (usuario, clave y marca de cifrado) vive en un único atributo de texto de sistema, USUPORTALWEB, que el código parte en subclaves con `acpsgetvarparameter` (usr, pass y passEncryp). El cifrado es opcional: si passEncryp no vale S, la clave se manda tal cual al login. El comentario del XML pide que ese atributo esté en el archivo de configuración de Services; el Java no lo verifica, porque el atributo puede llegar también del contexto. El valor y el formato de ejemplo no se documentan. [V · capas: código, diseño · ev: hprvir02_impl.java e115A2 (Start); tprvinsrp0001.java privateExecute; crontabauthorizeuser.java privateExecute; XPZ HPrvIR02 Events Start (comentario) · clase: accidente]
+- **R-555** `crontabauthorizeuser`, que es de la plataforma ACPS y no de la familia, escribe en la salida estándar del servidor el objeto de login completo (usuario y clave, ya descifrada si passEncryp vale S) justo antes de autenticar. El módulo lo dispara en cada ingreso al paso 1 (`hprvir02`, Start) y en cada guardado del alta (`tprvinsrp0001`), así que la clave de la cuenta de servicio pasa por el registro del servidor muchas veces al día. [V · capas: código · ev: crontabauthorizeuser.java privateExecute; hprvir02_impl.java e115A2 (Start); tprvinsrp0001.java privateExecute · clase: accidente]
+
+## Lo que no es un hallazgo
+
+El mensaje de habilitación (`pprvir04`) declara un parámetro de clave (ParamPassword, R-539), pero lo envía siempre vacío: no hay clave en ese mensaje.
+
+## Acceso al modo administración sin control de permisos
+
+Ver `modos.md`, **R-604**. Por lectura del código (no observado en test): la página maestra `gempprvir` y el menú `mainmenuwidgetproveedores` enlazan a `hprvir21` con el usuario de la sesión, y ni `hprvir21` ni `hprvir25` consultan un permiso (`pcadm003` / `PrvPAdminGral` solo lo consulta `hprvir40`). Si esa página maestra es la que ve el proveedor, el proveedor edita sus datos en modo `A`: CUIT, IVA e Ingresos Brutos habilitados, sin pasar a `Q` ni generar el aviso de documentación. Se documenta como hallazgo, no como requisito. Confirmarlo en test es parte de E5.
+
+## Clave de la cuenta de servicio en la salida estándar
+
+Ver **R-555**. Comprobado por el coordinador el 2026-10-23 en el Java: `crontabauthorizeuser` imprime con `System.out.println` el JSON del login a Services, que incluye la clave de la cuenta de servicio. Si el servidor de aplicaciones guarda la salida estándar, la clave queda en sus logs en cualquier ambiente.
+

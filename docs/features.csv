@@ -1,0 +1,111 @@
+feature,area,priority,original,clone,notes,capas,evidencia,decision
+Iniciar sesión de la cuenta de servicio del portal al abrir el alta,paso-01,must,yes,no,,diseño código,R-101 docs/pasos/paso-01.md,pendiente
+Mostrar el anexo de documentación necesaria según configuración,paso-01,could,yes,no,Depende del atributo ANEXODOCUMENTACION.,diseño código,R-102 R-520 docs/configuracion.md docs/pasos/paso-01.md,pendiente
+Bloquear el alta si se declara empleado público,paso-01,should,partial,no,"No figura en la rev2; clase por defecto, no se sabe si es norma o parche.",diseño código,R-103 docs/pasos/paso-01.md,pendiente
+Validar el CUIT: obligatorio y con dígito verificador,paso-01,must,yes,no,,diseño código,R-104 R-105 docs/pasos/paso-01.md,pendiente
+"Cortar el alta si el proveedor ya está habilitado, espera modificación, es Agente del Estado o el usuario ya existe",paso-01,must,yes,no,El flag G (Agente del Estado) no figura en el comentario del XPZ pero el case lo trata.,diseño código,R-106 R-107 R-108 R-112 R-114 docs/pasos/paso-01.md,pendiente
+Retomar un registro en espera saltando a la impresión del paso 10,paso-01,should,yes,no,,diseño código,R-109 docs/pasos/paso-01.md,pendiente
+Continuar el alta de un proveedor ya existente en el padrón viejo,paso-01,must,partial,no,El flag A no lo produce ningún objeto de fin/ (R-427). Incluye accidentes R-115.,diseño código,R-110 R-115 docs/pasos/paso-01.md,pendiente
+Iniciar el alta de un proveedor nuevo,paso-01,must,yes,no,,diseño código,R-111 docs/pasos/paso-01.md,pendiente
+Perfil temporal T creado desde la compra de pliegos y flag A del padrón,paso-01,could,skip,no,Ningún objeto de fin/ produce T ni A: ramas inalcanzables.,diseño código,R-113 R-427 R-429 docs/estados.md docs/pasos/paso-01.md,pendiente
+Consulta de proveedor por PPrvIR01 reemplazada por PPrvIR02,paso-01,could,skip,no,Llamada comentada en el XPZ; sin rastro en el Java. Incluye accidentes R-116.,diseño,R-116 docs/pasos/paso-01.md,pendiente
+Reutilizar el nombre de usuario del perfil ya existente,paso-02,must,yes,no,,diseño código,R-120 docs/pasos/paso-02.md,pendiente
+Categoría del proveedor que llega del paso 1,paso-02,could,skip,no,El valor recibido nunca se lee: el paso 3 siempre recibe categoría 1. Incluye accidentes R-121.,diseño código,R-121 docs/pasos/paso-02.md,pendiente
+"Elegir nombre de usuario: obligatorio, entre 5 y 20 caracteres, en mayúsculas",paso-02,must,partial,no,El mensaje de campo vacío tiene una rama de categoría que nunca se muestra.,diseño código,R-122 R-123 R-124 R-125 docs/pasos/paso-02.md,pendiente
+Garantizar que el nombre de usuario sea único,paso-02,must,yes,no,,diseño código,R-126 docs/pasos/paso-02.md,pendiente
+Restringir el nombre de usuario a letras A-Z y dígitos,paso-02,must,yes,no,,diseño código,R-127 docs/pasos/paso-02.md,pendiente
+Definir si el paso 3 inserta o modifica y generar el usuario,paso-02,must,yes,no,,diseño código,R-128 R-129 R-130 docs/pasos/paso-02.md,pendiente
+Cambiar el nombre de usuario de un perfil existente (Pprvir07),paso-02,could,skip,no,Llamada y condición comentadas en el XPZ. Incluye accidentes R-131.,diseño,R-131 docs/pasos/paso-02.md,pendiente
+"Exigir nombre o razón social, teléfono y fecha de último pago o exención",paso-03,must,yes,no,,diseño código,R-140 R-144 R-147 docs/pasos/paso-03.md,pendiente
+Validar Ingresos Brutos (prefijo y número),paso-03,should,yes,no,"Mensaje del prefijo con dos espacios; el número es obligatorio solo con categoría 1, que en el alta siempre ocurre.",diseño código,R-141 R-145 docs/pasos/paso-03.md,pendiente
+Validar el formato del correo electrónico,paso-03,must,partial,no,El correo se valida dos veces con mensajes distintos (PPrvIR39 y expresión del dominio). Incluye accidentes R-143.,diseño código,R-142 R-143 docs/pasos/paso-03.md,pendiente
+Revalidar el CUIT en la carga de datos,paso-03,should,partial,no,Repite la comprobación del paso 1 con otro mensaje.,diseño código,R-146 docs/pasos/paso-03.md,pendiente
+Controlar coherencia entre tipo y clase de persona y rangos de dominio,paso-03,should,yes,no,,diseño código,R-148 R-149 docs/pasos/paso-03.md,pendiente
+Crear o modificar el usuario del proveedor en Services,paso-03,must,yes,no,,diseño código,R-150 R-166 R-167 docs/pasos/paso-03.md,pendiente
+"Fijar valores iniciales del alta: habilitación pendiente, UTE en N",paso-03,must,yes,no,,diseño código,R-151 R-159 docs/pasos/paso-03.md,pendiente
+Pasar a pendiente de aprobación cuando el proveedor modifica sus datos,paso-03,must,partial,no,Hay una segunda regla redundante que nunca se ejecuta y rutas hijas que pisan estados I y R. Incluye accidentes R-153 R-464.,diseño código,R-152 R-153 R-449 R-464 docs/estados.md docs/pasos/paso-03.md,pendiente
+"Deducir categoría, tipo de persona y CUIT con formato al grabar el perfil",paso-03,must,yes,no,,diseño código,R-154 R-156 R-157 docs/pasos/paso-03.md,pendiente
+Generar y cifrar la clave inicial del portal,paso-03,should,partial,no,Cifrado reversible y clave pseudoaleatoria; ver seguridad. Incluye accidentes R-549 R-550 R-551.,diseño código,R-155 R-549 R-550 R-551 docs/pasos/paso-03.md docs/seguridad.md,pendiente
+Controlar qué campos son editables según módulo y bloqueo de nombre,paso-03,should,yes,no,,diseño código,R-158 R-160 R-161 docs/pasos/paso-03.md,pendiente
+Guardar historial del cambio de correo,paso-03,should,yes,no,,diseño código,R-162 docs/pasos/paso-03.md,pendiente
+Avisar al proveedor que sus datos modificados esperan aprobación,paso-03,should,partial,no,El aviso se arma con un canal configurable. Incluye accidentes R-707.,diseño código,R-163 R-707 docs/mensajes.md docs/pasos/paso-03.md,pendiente
+"Continuar tras grabar el alta: persona jurídica al paso 4, física al paso 5",paso-03,must,yes,no,,diseño código,R-164 docs/pasos/paso-03.md,pendiente
+Devolver el control a quien llamó tras grabar en modo administración,paso-03,should,yes,no,Llamada a HPrvIR21 comentada.,diseño código,R-165 docs/pasos/paso-03.md,pendiente
+Enviar al proveedor el correo de bienvenida con la clave inicial,paso-03,should,partial,no,La clave viaja en texto claro y el resultado del envío no se verifica. Incluye accidentes R-515 R-552 R-719. Incluye parches R-547.,código,R-168 R-514 R-515 R-547 R-552 R-719 R-724 docs/cliente-vs-producto.md docs/integraciones.md docs/mensajes.md docs/pasos/paso-03.md docs/seguridad.md,pendiente
+Botón Anterior del paso 3,paso-03,could,partial,no,Siempre vuelve al paso 1 aunque el previo sea el 2. Incluye parches R-169.,diseño código,R-169 docs/pasos/paso-03.md,pendiente
+Datos obligatorios de la sociedad: fechas de constitución e inscripción,paso-04,must,yes,no,,diseño código,R-180 R-181 docs/pasos/paso-04.md,pendiente
+"Validar país, provincia y localidad de la sociedad",paso-04,must,yes,no,,diseño código,R-182 R-183 R-184 R-185 docs/pasos/paso-04.md,pendiente
+Exigir al menos un integrante de la sociedad,paso-04,must,yes,no,,diseño código,R-186 docs/pasos/paso-04.md,pendiente
+Grabar la sociedad al avanzar o al agregar un integrante,paso-04,must,partial,no,Agregar graba sin ninguna de las validaciones.,diseño código,R-187 R-188 docs/pasos/paso-04.md,pendiente
+"Alta, modificación y baja de integrantes",paso-04,must,yes,no,,diseño código,R-189 R-190 docs/pasos/paso-04.md,pendiente
+Bloque de validación de la sociedad duplicado en dos eventos,paso-04,could,partial,no,Idéntico en Siguiente y en otro evento. Incluye accidentes R-191.,diseño código,R-191 docs/pasos/paso-04.md,pendiente
+Navegar desde el paso 4: anterior y volver,paso-04,should,partial,no,Llamada a administración comentada. Incluye accidentes R-193.,diseño código,R-192 R-193 R-194 docs/pasos/paso-04.md,pendiente
+Exigir al menos un domicilio legal,paso-05,must,yes,no,,diseño código,R-201 docs/pasos/paso-05.md,pendiente
+"Alta, modificación y baja de domicilios",paso-05,must,yes,no,Ventana emergente en los tres modos.,diseño código,R-212 docs/pasos/paso-05.md,pendiente
+Reglas de la grilla de domicilios y bifurcación de salida por tipo de persona,paso-05,should,yes,no,,diseño código,R-202 R-203 R-204 docs/pasos/paso-05.md,pendiente
+Navegar desde el paso 5 según modo y tipo de persona,paso-05,should,yes,no,,diseño código,R-207 R-208 R-209 docs/pasos/paso-05.md,pendiente
+Leyenda y condición de domicilio legal por categoría,paso-05,could,skip,no,Texto siempre oculto y condición comentada. Incluye accidentes R-205 R-206.,diseño código,R-205 R-206 docs/pasos/paso-05.md,pendiente
+Retorno a administración y usuario de sesión sin uso en el paso 5,paso-05,could,skip,no,Código comentado o sin lectores. Incluye accidentes R-210 R-211.,diseño código,R-210 R-211 docs/pasos/paso-05.md,pendiente
+Situación patrimonial: avanzar sin exigir ejercicio ni balance,paso-06,should,partial,no,Las validaciones están comentadas y el texto de pantalla dice que es obligatoria. Incluye accidentes R-213 R-214 R-215 R-216.,diseño código,R-213 R-214 R-215 R-216 docs/pasos/paso-06.md,pendiente
+"Alta, modificación y baja de ejercicios de situación patrimonial",paso-06,should,yes,no,,diseño código,R-217 R-218 R-219 docs/pasos/paso-06.md,pendiente
+Navegar desde el paso 6 según modo,paso-06,should,yes,no,,diseño código,R-220 R-221 R-222 docs/pasos/paso-06.md,pendiente
+Código muerto del paso 6: retorno comentado y consultas sin uso,paso-06,could,skip,no,Incluye accidentes R-223 R-224.,diseño código,R-223 R-224 docs/pasos/paso-06.md,pendiente
+Exigir al menos un rubro,paso-07,must,yes,no,El mínimo se controla recién al avanzar o volver.,diseño código,R-225 R-226 R-228 R-236 docs/pasos/paso-07.md,pendiente
+"Alta, baja y selección de rubros",paso-07,must,yes,no,,diseño código,R-227 R-235 docs/pasos/paso-07.md,pendiente
+Navegar desde el paso 7 según modo y tipo de persona,paso-07,should,yes,no,,diseño código,R-229 R-230 R-232 docs/pasos/paso-07.md,pendiente
+Código muerto del paso 7,paso-07,could,skip,no,Asignaciones comentadas y variables sin uso. Incluye accidentes R-231 R-233 R-234.,diseño código,R-231 R-233 R-234 docs/pasos/paso-07.md,pendiente
+"Representantes: opcionales, con alta, cambio y baja",paso-08,should,yes,no,,diseño código,R-237 R-244 docs/pasos/paso-08.md,pendiente
+Recordar el camino de regreso del asistente en variable de sesión,paso-08,should,partial,no,Pisa el tipo de persona guardado antes y puede romper Anterior en el paso 5. Incluye accidentes R-239. Incluye parches R-238.,diseño código,R-238 R-239 docs/pasos/paso-08.md,pendiente
+Navegar desde el paso 8,paso-08,should,yes,no,,diseño código,R-240 R-241 R-243 docs/pasos/paso-08.md,pendiente
+Código muerto del paso 8,paso-08,could,skip,no,Incluye accidentes R-242 R-245 R-246.,diseño código,R-242 R-245 R-246 docs/pasos/paso-08.md,pendiente
+"Alta, modificación y baja de cuentas bancarias",paso-09,should,yes,no,,diseño código,R-301 docs/pasos/paso-09.md,pendiente
+Exigir cuenta bancaria según configuración,paso-09,should,yes,no,Depende de COMPRAS_OBLIGACTABCO.,diseño código,R-302 R-303 R-304 R-521 docs/configuracion.md docs/pasos/paso-09.md,pendiente
+Navegar desde el paso 9,paso-09,should,yes,no,,diseño código,R-305 R-306 R-307 R-308 docs/pasos/paso-09.md,pendiente
+Textos fijos y lectura de usuario sin uso en el paso 9,paso-09,could,skip,no,Incluye accidentes R-309 R-310.,diseño código,R-309 R-310 docs/pasos/paso-09.md,pendiente
+Mostrar el bloque de inscripción o el de reimpresión según el modo,paso-10,must,yes,no,,diseño código,R-320 R-321 docs/pasos/paso-10.md,pendiente
+Imprimir o reimprimir la solicitud de inscripción,paso-10,must,yes,no,,diseño código,R-322 R-323 R-324 docs/pasos/paso-10.md,pendiente
+Anexo II de veracidad según configuración,paso-10,could,partial,no,Depende de ANEXOVERACIDAD. Incluye parches R-325.,diseño código,R-325 R-328 R-523 docs/configuracion.md docs/pasos/paso-10.md,pendiente
+Leyenda del anexo II armada con datos fijos de un cliente,paso-10,could,partial,no,Datos de un cliente escritos en el código. Incluye accidentes R-326 R-541.,diseño código,R-326 R-327 R-541 docs/cliente-vs-producto.md docs/pasos/paso-10.md,pendiente
+Navegar desde el paso 10,paso-10,should,yes,no,,diseño código,R-329 R-330 docs/pasos/paso-10.md,pendiente
+Descargar el formulario de inscripción según configuración,paso-11,could,partial,no,Depende de COMPRAS_HABFORMULARIO. Incluye parches R-350 R-522.,diseño código,R-350 R-351 R-522 docs/configuracion.md docs/pasos/paso-11.md,pendiente
+Ver de nuevo los datos cargados y volver al paso 10,paso-11,could,yes,no,,diseño código,R-352 R-361 docs/pasos/paso-11.md,pendiente
+Confirmar el registro: enviar mensaje y dejar el trámite en espera,paso-11,must,partial,no,La condición de éxito lleva un OR con una constante verdadera: queda en espera aunque el envío falle. Incluye accidentes R-357 R-466 R-518 R-701.,diseño código,R-353 R-354 R-355 R-356 R-357 R-441 R-442 R-443 R-466 R-518 R-701 docs/estados.md docs/integraciones.md docs/mensajes.md docs/pasos/paso-11.md,pendiente
+Pantalla de agradecimiento y textos del paso 11,paso-11,should,partial,no,Texto que contradice al código y línea comentada. Incluye accidentes R-359 R-360.,diseño código,R-358 R-359 R-360 docs/pasos/paso-11.md,pendiente
+"Fijar el modo de trabajo: inscripción, proveedor o administración",modo-I,must,yes,no,,diseño código,R-601 R-602 R-603 docs/modos.md,pendiente
+Entrar a la administración de un proveedor y ofrecer opciones según perfil y estado,modo-A,should,yes,no,,código ejecución,R-604 R-605 R-606 R-607 R-608 docs/modos.md,pendiente
+Enlace a proveedores esperando habilitación,modo-A,should,partial,no,POPRO001 lo oculta en Start.,código ejecución,R-609 docs/modos.md,pendiente
+Ramas de HPrvIR18 y HPrvIR22 para modos que ningún camino alcanza,modos,could,skip,no,Incluye accidentes R-610 R-611.,diseño código,R-610 R-611 docs/modos.md,pendiente
+Menú del proveedor para modificar sus datos,modo-P,must,yes,no,,diseño código,R-612 R-613 R-614 R-630 docs/modos.md,pendiente
+Bloqueo del nombre y marca de modificación según el modo,modo-A,should,yes,no,,diseño código,R-620 R-621 docs/modos.md,pendiente
+Opciones de impresión del menú del proveedor,modo-P,could,skip,no,Una sin enlace y otra con ciclo que nunca llega a una fila. Incluye accidentes R-631 R-632.,código,R-631 R-632 docs/modos.md,pendiente
+Solicitar cambio de categoría,modo-P,should,yes,no,,código,R-453 R-633 R-635 R-636 docs/estados.md docs/modos.md,pendiente
+Reinscripción de proveedores inhabilitados,modo-P,should,yes,no,,código,R-456 R-457 R-634 docs/estados.md docs/modos.md,pendiente
+Un perfil por usuario y tablas hijas con clave por usuario,modelo-datos,must,yes,no,,diseño código,R-401 R-402 R-403 docs/modelo-datos.md,pendiente
+Compartir el perfil con la carga de usuarios del sistema,modelo-datos,could,partial,no,El significado del valor de clase de usuario no está documentado.,código,R-405 docs/modelo-datos.md,pendiente
+Borrar proveedores físicamente o pasarlos a eliminado,estados,should,yes,no,,código,R-404 R-459 R-460 docs/estados.md docs/modelo-datos.md,pendiente
+Dar de alta usuarios que no son proveedores,estados,could,yes,no,,código,R-462 docs/estados.md,pendiente
+Determinar la situación del CUIT contra perfiles y padrón,estados,must,yes,no,,diseño código,R-421 R-422 R-423 R-424 R-425 R-426 R-428 R-430 R-431 docs/estados.md,pendiente
+Habilitar provisoriamente y revertir la habilitación provisoria,estados,should,yes,no,Depende de HAB_PROVISORIA.,código,R-444 R-445 R-463 R-524 docs/configuracion.md docs/estados.md,pendiente
+Habilitar definitivamente desde administración,estados,must,partial,no,El mensaje de habilitación lleva la clave siempre vacía. Incluye accidentes R-539 R-702.,código,R-446 R-511 R-530 R-539 R-702 docs/configuracion.md docs/estados.md docs/integraciones.md docs/mensajes.md,pendiente
+Habilitar modificaciones y reinscripciones pendientes,estados,must,yes,no,Incluye accidentes R-704 R-705.,código,R-447 R-512 R-532 R-533 R-704 R-705 docs/configuracion.md docs/estados.md docs/integraciones.md docs/mensajes.md,pendiente
+Renovar el certificado de habilitación y marcarlo como no habilitado,estados,should,yes,no,Incluye accidentes R-703.,código,R-448 R-461 R-531 R-538 R-703 R-716 docs/configuracion.md docs/estados.md docs/mensajes.md,pendiente
+Inhabilitar proveedores,estados,should,yes,no,,código,R-454 R-455 docs/estados.md,pendiente
+Notificar a proveedores habilitados e inhabilitar notificados,estados,should,partial,no,Una rama inalcanzable y un correo que se arma pero no se envía. Incluye accidentes R-725 R-726 R-727.,código,R-725 R-726 R-727 docs/mensajes.md,pendiente
+Vencer habilitaciones y controlar vencimientos de certificados y documentación,estados,should,yes,no,Lo dispara un proceso externo al export.,código,R-458 R-717 R-718 docs/estados.md docs/mensajes.md,pendiente
+Pasar a pendiente cuando el proveedor modifica datos hijos,estados,must,partial,no,Cinco rutas llevan a Q; dos pisan I y R y tres los preservan. Incluye accidentes R-465 R-708 R-709 R-710 R-711 R-712 R-713 R-714.,código,R-450 R-451 R-452 R-465 R-708 R-709 R-710 R-711 R-712 R-713 R-714 docs/estados.md docs/mensajes.md,pendiente
+Notificar a proveedores con inscripción incompleta,estados,should,yes,no,,código,R-535 R-706 docs/configuracion.md docs/mensajes.md,pendiente
+Enviar aviso a un proveedor desde administración,mensajes,could,yes,no,,código,R-715 docs/mensajes.md,pendiente
+"Avisos de compras a proveedores: invitación, mejora de precios y etapas",mensajes,could,partial,no,Entradas externas al módulo; la de mejora de precios es accidente. Incluye accidentes R-722.,código,R-721 R-722 R-723 docs/mensajes.md,pendiente
+Autenticar la cuenta de servicio del portal en Services,integraciones,must,yes,no,,diseño código,R-502 R-519 R-525 docs/configuracion.md docs/integraciones.md,pendiente
+Usuario del proveedor en Services: prefijo y perfil,integraciones,must,partial,no,El prefijo está escrito como literal en seis objetos. Incluye accidentes R-545.,diseño código,R-501 R-526 R-527 R-545 docs/cliente-vs-producto.md docs/configuracion.md docs/integraciones.md,pendiente
+Mensajes de canal a proveedores y su configuración,integraciones,should,partial,no,Asuntos escritos en el código.,diseño código,R-504 R-528 R-529 R-534 R-536 R-537 R-548 docs/cliente-vs-producto.md docs/configuracion.md docs/integraciones.md,pendiente
+Correo vía Services y registro de envíos,integraciones,should,partial,no,El remitente grabado en el registro es una dirección de pruebas fija. Incluye accidentes R-544 R-728.,código,R-503 R-544 R-728 docs/cliente-vs-producto.md docs/integraciones.md docs/mensajes.md,pendiente
+Mensajería interna de GEN para el alta,integraciones,could,partial,no,Origen y códigos fijos escritos en el código. Incluye parches R-546.,código,R-513 R-546 docs/cliente-vs-producto.md docs/integraciones.md,pendiente
+Repositorio documental de adjuntos,integraciones,should,yes,no,,código,R-505 R-506 R-507 R-540 docs/configuracion.md docs/integraciones.md,pendiente
+Recuperar la contraseña del proveedor,integraciones,should,partial,no,La clave nueva viaja en texto claro por correo. Incluye accidentes R-553.,código,R-508 R-553 R-720 docs/integraciones.md docs/mensajes.md docs/seguridad.md,pendiente
+Leer el padrón de proveedores de GEN,integraciones,must,yes,no,,código,R-509 R-510 docs/integraciones.md,pendiente
+Contexto de sesión de Services y sesión de proveedor,integraciones,should,yes,no,,diseño código,R-516 R-517 docs/integraciones.md,pendiente
+Atributos de sistema que gobiernan el comportamiento del módulo,configuracion,should,yes,no,"Solo nombres, nunca valores. Incluye parches R-522.",diseño código,R-519 R-520 R-521 R-522 R-523 R-524 R-525 docs/configuracion.md,pendiente
+"Canales de mensajes de habilitación, certificado, reinscripción y datos",configuracion,should,yes,no,,diseño código,R-530 R-531 R-532 R-533 R-534 R-535 docs/configuracion.md,pendiente
+Enlace al boletín oficial y correos de vencimiento con datos fijos,cliente-vs-producto,could,partial,no,Dominio y remitente escritos en el código. Incluye accidentes R-542 R-543.,código,R-542 R-543 docs/cliente-vs-producto.md,pendiente
+Proteger la cuenta de servicio de Services,seguridad,must,partial,no,Un único atributo la guarda y su clave se escribe en la salida estándar del servidor. Incluye accidentes R-554 R-555.,diseño código,R-554 R-555 docs/seguridad.md,pendiente

@@ -1,0 +1,3 @@
+feature,area,priority,original,clone,notes,capas,evidencia,decision
+Alta sintética,alta,must,yes,no,,código,objsinta_impl.java,pendiente
+Regla sintética,alta,could,yes,no,ver DR-01,código,objsinta_impl.java E11,eliminar

@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Read(**/.env.*.local)",
+      "Read(**/.env.development)",
+      "Read(**/.env.dev)",
+      "Read(**/.env.production)",
+      "Read(**/.env.prod)",
+      "Read(**/.env.staging)",
+      "Read(**/.env.test)",
+      "Edit(**/trabajo/archivo/*/*/**)",
+      "PowerShell",
+      "Edit(contexto/**)",
+      "Edit(contexto-local/**)",
+      "Bash(docker:*)",
+      "Bash(sudo:*)",
+      "mcp__claude_ai_Claude_Docs",
+      "mcp__claude_ai_Zapier",
+      "mcp__claude_ai_Google_Sheets",
+      "mcp__claude_ai_Google_Slides",
+      "mcp__claude_ai_Google_Docs",
+      "mcp__claude_ai_Vercel",
+      "mcp__claude_ai_Granola",
+      "mcp__claude_ai_Spotify",
+      "mcp__claude_ai_Google_Drive",
+      "mcp__claude_ai_ClickUp",
+      "mcp__claude_ai_Google_Calendar",
+      "mcp__claude_ai_Gmail"
+    ]
+  }
+}

@@ -1,0 +1,94 @@
+# Declaración de andamio para este proyecto.
+#
+# La llenó /arranque y la confirmó el responsable del proyecto (2026-10-19).
+# Iniciativa de NómadeSoft: fase 1, entender y documentar el módulo Registro
+# de Proveedores de GEN Financiero (GeneXus 18); fase 2, reimplementarlo con
+# React, PostgreSQL y LoopBack.
+
+# Versión del motor contra la que corre este proyecto, fijada a tag o commit.
+version_andamio: "0.1.1"
+
+# Preset de partida: desarrollo, análisis, ciencia de datos o consultoría.
+# Es un punto de partida, no un cajón.
+tipo: "desarrollo"
+
+# Cómo se llama una unidad de trabajo en este proyecto.
+unidad: "unidad de trabajo"
+
+# Ejecutores: quién hace las tareas, cada uno con un solo ámbito de `ambitos`.
+ejecutores:
+  - nombre: docs
+    ambito: docs
+  - nombre: app
+    ambito: app
+  - nombre: api
+    ambito: api
+  - nombre: db
+    ambito: db
+
+# Ámbitos: rutas o carpetas que cada ejecutor puede tocar.
+ambitos:
+  docs:
+    - "docs/"    # análisis del módulo Registro de Proveedores (fase 1)
+  app:
+    - "app/"     # frontend React (fase 2)
+  api:
+    - "api/"     # backend LoopBack (fase 2)
+  db:
+    - "db/"      # esquema y migraciones PostgreSQL (fase 2)
+
+# Lo que no se toca sin intervención humana: rutas, archivos o tipos de cambio.
+protegido:
+  - "contexto/"          # fuentes originales: se leen, no se modifican
+  - "contexto-local/"    # código Java generado de GENFin: solo consulta
+  - "trabajo/archivo/"
+  - ".claude/"
+
+# Qué verifica que una tarea está terminada: comandos o criterios, tal como
+# existen hoy en el proyecto.
+# Todavía no hay cierre: se define cuando existan app/ y api/ con sus pruebas.
+cierre: []
+
+# Quién confirma los criterios de aceptación: un rol, no un nombre propio.
+gate_humano: "responsable del proyecto"
+
+# Gestor de tareas. En esta versión solo se declara; no hay integración.
+gestor:
+  origen: ""   # dónde vive la autoridad sobre las tareas
+  reflejo: ""  # dónde se refleja, si se refleja
+
+# Conectores de cuenta, servidores de plugin y servidores de la cuenta local
+# habilitados a propósito, con el prefijo de sus herramientas
+# (por ejemplo, mcp__claude_ai_<Nombre>). Vacío: todos negados.
+conectores_permitidos: []
+
+# Credenciales que el proyecto necesita. NUNCA valores: solo el nombre de la
+# variable, el servicio, el alcance mínimo y si alcanza con solo lectura.
+credenciales:
+  - nombre: "GENFIN_TEST_USUARIO"
+    servicio: "portal GEN Financiero, ambiente de test"
+    alcance: "usuario de test: consulta y altas de prueba"
+    solo_lectura: false   # 2026-10-23, pedido por el responsable. Altas solo con las condiciones de la pregunta 5 de registro-proveedores-docs (Services verificado, datos inventados, casilla propia)
+  - nombre: "GENFIN_TEST_CLAVE"
+    servicio: "portal GEN Financiero, ambiente de test"
+    alcance: "usuario de test: consulta y altas de prueba"
+    solo_lectura: false   # 2026-10-23, pedido por el responsable. Altas solo con las condiciones de la pregunta 5 de registro-proveedores-docs (Services verificado, datos inventados, casilla propia)
+  - nombre: "GENFIN_DB_URL"
+    servicio: "PostgreSQL de desarrollo del proyecto en INV001 (todavía no existe)"
+    alcance: "un usuario con permisos solo sobre la base del proyecto"
+    solo_lectura: false   # hace falta escribir para correr las migraciones de db/
+
+# Pruebas: "por defecto" (cada tarea que cambia comportamiento las trae) o
+# "a pedido" (solo si la tarea las pide).
+tests: "por defecto"
+
+# Modelo por rol. Los comandos y agentes del motor ya los fijan; acá quedan
+# declarados para que se vean.
+modelos:
+  decide_y_juzga: opus
+  ejecuta: sonnet
+
+# Revisión que el proyecto ya tiene, si tiene una: un comando o un
+# procedimiento en palabras. /verificar la corre después de la auditoría.
+# Vacío: no hay revisión declarada.
+revision: ""
